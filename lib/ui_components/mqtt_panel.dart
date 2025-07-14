@@ -14,18 +14,18 @@ class MQTTPanel extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Icon(
+              Icons.circle_sharp, // Placeholder for connected icon
+              color: state.isConnected ? Colors.green : Colors.red,
+              size: 32,
+            ),
+            const SizedBox(width: 16),
             SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(strokeWidth: 2,
                 color: state.inProgress ? Colors.blue : Colors.transparent,
               ),
-            ),
-            const SizedBox(width: 16),
-            Icon(
-              Icons.circle_sharp, // Placeholder for connected icon
-              color: state.isConnected ? Colors.green : Colors.red,
-              size: 32,
             ),
             const SizedBox(width: 16),
             Icon(

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:synchronized/synchronized.dart';
 
 import '../ui_blocks/app_bloc.dart';
+import '../ui_blocks/esp32_bloc.dart';
 import '../ui_blocks/item_model.dart';
 import '../ui_blocks/items_bloc.dart';
 import '../ui_blocks/mqtt_bloc.dart';
@@ -17,12 +18,13 @@ class ServiceAdapter {
   late AppBloc? _appBloc;
   late ItemsBloc? _itemsBloc;
   late MqttBloc? _mqttBloc;
+  late Esp32Bloc? _esp32Bloc;
 
-  static int PERIOD = 1000;
+  //static int PERIOD = 1000;
   static int DELETE_DELAY = 4000;
   static int STOP_DELAY = 2000;
 
-  final Duration _period = Duration(milliseconds: PERIOD);
+  //final Duration _period = Duration(milliseconds: PERIOD);
   late Timer? _cleanupTimer = null;
 
   late String _deviceName = '';
@@ -75,8 +77,6 @@ class ServiceAdapter {
     if (container.length == 1) {
       _startCleanupTimer();
     }
-
-
   }
 
   void remove(String? id) {
@@ -155,6 +155,10 @@ class ServiceAdapter {
 
   void setMQTTBloc(MqttBloc? mqttBloc) {
     _mqttBloc = mqttBloc;
+  }
+
+  void setEsp32Bloc(Esp32Bloc? esp32Bloc) {
+    _esp32Bloc = esp32Bloc;
   }
 
   void mqttConnect() {

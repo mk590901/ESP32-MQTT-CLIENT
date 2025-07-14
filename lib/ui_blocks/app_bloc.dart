@@ -38,7 +38,6 @@ class AppState {
 
   AppState copyWith({
     bool? isRunning,
-    bool? isServer,
   }) {
     return AppState(
       isRunning: isRunning ?? this.isRunning,
