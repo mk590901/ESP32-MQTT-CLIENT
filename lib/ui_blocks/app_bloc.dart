@@ -10,10 +10,6 @@ import '../service_components/foreground_service.dart';
 
 abstract class AppEvent {}
 
-class ToggleRunningEvent extends AppEvent {}
-
-class ToggleModeEvent extends AppEvent {}
-
 class StartService extends AppEvent {}
 
 class StopService extends AppEvent {}
@@ -31,7 +27,6 @@ class SendData extends AppEvent {
 
 class AppState {
   final bool isRunning;
-  final bool isServer;
   final int counter;
   final String sentData;
 
@@ -39,7 +34,6 @@ class AppState {
     required this.isRunning,
     this.counter = 0,
     this.sentData = '',
-    required this.isServer,
   });
 
   AppState copyWith({
@@ -48,7 +42,6 @@ class AppState {
   }) {
     return AppState(
       isRunning: isRunning ?? this.isRunning,
-      isServer: isServer ?? this.isServer,
     );
   }
 }
@@ -57,7 +50,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   late StreamSubscription? _dataSubscription;
 
-  AppBloc() : super(AppState(isRunning: false, isServer: true)) {
+  AppBloc() : super(AppState(isRunning: false/*, isServer: true*/)) {
 
     ServiceAdapter.instance()?.setAppBloc(this);
 
@@ -65,7 +58,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(AppState(
         isRunning: isRunning,
         counter: state.counter,
-        isServer: state.isServer,
        ));
     });
 
@@ -101,34 +93,29 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           String value = data['value'] as String;
           print ('AppBloc.Connected->[$value]');
           ServiceAdapter.instance()?.mqttConnect();
-          //@ServiceAdapter.instance()?.mqttSuccess(command, value);
         }
 
         if (command == 'Disconnected') {
           String value = data['value'] as String;
           print ('AppBloc.Disconnected->[$value]');
           ServiceAdapter.instance()?.mqttDisconnect();
-          //@ServiceAdapter.instance()?.mqttSuccess(command, value);
         }
 
         if (command == 'Subscribed') {
           String value = data['value'] as String;
           print ('AppBloc.Subscribed->[$value]');
           ServiceAdapter.instance()?.mqttSubscribe();
-          //@ServiceAdapter.instance()?.mqttSuccess(command, value);
         }
 
         if (command == 'Unsubscribed') {
           String value = data['value'] as String;
           print ('AppBloc.Unsubscribed->[$value]');
           ServiceAdapter.instance()?.mqttUnsubscribe();
-          //@ServiceAdapter.instance()?.mqttSuccess(command, value);
         }
 
         if (command == 'Publish') {
           String value = data['value'] as String;
           print ('AppBloc.Publish->[$value]');
-          //@ServiceAdapter.instance()?.mqttSuccess(command, value);
         }
 
         if (command == 'mqtt') {
@@ -159,7 +146,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         emit(AppState(
           isRunning: true,
           counter: state.counter,
-          isServer: state.isServer,
         ));
         FlutterForegroundTask.sendData({'command': 'phone_id', 'data': ServiceAdapter.instance()?.getDeviceName()?? '?DeviceName'});
       }
@@ -170,28 +156,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     on<StopService>((event, emit) async {
       await FlutterForegroundTask.stopService();
-      emit(AppState(isRunning: false, counter: 0, isServer: state.isServer, ));
-    });
-
-    on<ToggleRunningEvent>((event, emit) {
-      if (state.isRunning) {
-        ServiceAdapter.instance()?.stop();
-      }
-      else {
-        ServiceAdapter.instance()?.start();
-      }
-      emit(state.copyWith(isRunning: !state.isRunning));
-    });
-
-    on<ToggleModeEvent>((event, emit) {
-      emit(state.copyWith(isServer: !state.isServer));
+      emit(AppState(isRunning: false, counter: 0, /*isServer: state.isServer,*/ ));
     });
 
     on<UpdateData>((event, emit) {
       emit(AppState(
         isRunning: state.isRunning,
         counter: event.counter,
-        isServer: state.isServer,
       ));
     });
 
@@ -203,7 +174,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         isRunning: state.isRunning,
         counter: state.counter,
         sentData: event.data, //  command?
-        isServer: state.isServer,
       ));
     });
 
