@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'gui_adapter/service_adapter.dart';
 import 'service_components/foreground_service.dart';
 import 'ui_blocks/app_bloc.dart';
+import 'ui_blocks/esp32_bloc.dart';
 import 'ui_blocks/items_bloc.dart';
 import 'ui_blocks/mqtt_bloc.dart';
 import 'ui_components/home_page.dart';
@@ -42,6 +43,7 @@ class FrontendApp extends StatelessWidget {
         BlocProvider(create: (context) => AppBloc()),
         BlocProvider(create: (context) => ItemsBloc()),
         BlocProvider(create: (context) => MqttBloc()),
+        BlocProvider(create: (context) => Esp32Bloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

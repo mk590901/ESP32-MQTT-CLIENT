@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:synchronized/synchronized.dart';
 
+import '../command_model.dart';
 import '../ui_blocks/app_bloc.dart';
 import '../ui_blocks/esp32_bloc.dart';
 import '../ui_blocks/item_model.dart';
@@ -359,4 +362,17 @@ class ServiceAdapter {
     _mqttBloc?.add(InProgressEvent(progress));
     print ('******* setProgress $progress ******* ${DateTime.now()}');
   }
+
+
+  void stopEsp32() {
+    final Command command = Command(cmd: "stop");
+    String jsonString = jsonEncode(command.toJson());
+    FlutterForegroundTask.sendData({'command': 'stop', 'data': jsonString});
+  }
+
+  void executeCommand(String jsonString) {
+    Command command = Command.fromJsonString(jsonString);
+    print ('executeCommand->[${command.cmd}]');
+  }
+
 }

@@ -11,6 +11,7 @@ import '../ui_blocks/mqtt_bloc.dart';
 import '../utils.dart';
 import 'card_view.dart';
 import 'control_panel.dart';
+import 'esp32_panel.dart';
 import 'mqtt_panel.dart';
 
 class HomePage extends StatelessWidget {
@@ -57,6 +58,7 @@ class HomePage extends StatelessWidget {
           children: [
             const ControlPanel(),
             const MQTTPanel(),
+            const Esp32lPanel(),
             Expanded(
               child: BlocConsumer<ItemsBloc, ItemsState>(
                 listener: (context, state) {
