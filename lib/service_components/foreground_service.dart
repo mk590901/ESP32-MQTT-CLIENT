@@ -67,6 +67,7 @@ EMQX: _server = 'broker.emqx.io'
   //static final String _server = 'broker.emqx.io';
   static final String _flutterClient = 'flutter_client_${const Uuid().v4()}';
   static final String _topic = 'hsm_v2/topic';
+  static final String _out_topic = 'cmd_v2/topic';
 
   final Queue<Map>	queue	= Queue<Map>();
   final List<String> deletedObjectsList = [];
@@ -258,6 +259,7 @@ EMQX: _server = 'broker.emqx.io'
         _deviceId = receivedData;
         print ('DEVICE->$_deviceId');
       }
+      else
       if (command == 'create_object') {
         Pair pair = add();
         String id = pair.uuid();
@@ -283,6 +285,20 @@ EMQX: _server = 'broker.emqx.io'
         print ('mark_object_used -> [$id]');
         markUsed(id);
       }
+      else
+      if (command == 'command') {
+        String jsonString = receivedData;
+        final builder = MqttClientPayloadBuilder();
+        builder.addString(jsonString);
+        try {
+          client?.publishMessage(_out_topic, MqttQos.atMostOnce, builder.payload!);
+        }
+        catch (exception) {
+          print ('Publish - error');
+        }
+        print ('PUBLISH WAS DONE');
+      }
+
     } else {
       print('Invalid data format: $data');
     }

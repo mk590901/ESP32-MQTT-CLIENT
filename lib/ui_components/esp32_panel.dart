@@ -40,7 +40,7 @@ class Esp32lPanel extends StatelessWidget {
                       if (context.read<AppBloc>().state.isRunning) {
                         if (context.read<MqttBloc>().state.isConnected
                             &&  context.read<MqttBloc>().state.isSubscribed) {
-                          ServiceAdapter.instance()?.stopEsp32();
+                          ServiceAdapter.instance()?.send2Esp32('stop');
                           showToast(context, "The application running on the ESP32-S3 has been terminated and cannot be used any further. Please restart it with jag to resume interaction.");
                         }
                         else {

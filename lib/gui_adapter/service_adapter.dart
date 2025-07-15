@@ -364,10 +364,10 @@ class ServiceAdapter {
   }
 
 
-  void stopEsp32() {
-    final Command command = Command(cmd: "stop");
+  void send2Esp32(String espCommand) {
+    final Command command = Command(cmd: espCommand);
     String jsonString = jsonEncode(command.toJson());
-    FlutterForegroundTask.sendData({'command': 'stop', 'data': jsonString});
+    FlutterForegroundTask.sendData({'command': 'command', 'data': jsonString});
   }
 
   void executeCommand(String jsonString) {
