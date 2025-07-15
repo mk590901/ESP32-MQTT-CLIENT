@@ -39,13 +39,12 @@ class Esp32Bloc extends Bloc<Esp32Event, Esp32State> {
     ServiceAdapter.instance()?.setEsp32Bloc(this);
 
     on<StartEcg>((event, emit) async {
-      emit(Esp32State(
-        isRunning: true,
-      ));
+      ServiceAdapter.instance()?.sendCommand2Esp32('startEcg');
+      emit(Esp32State(isRunning: true,));
     });
 
     on<FinalEcg>((event, emit) async {
-      await FlutterForegroundTask.stopService();
+      ServiceAdapter.instance()?.sendCommand2Esp32('finalEcg');
       emit(Esp32State(isRunning: false, ));
     });
 

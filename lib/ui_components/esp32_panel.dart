@@ -37,19 +37,8 @@ class Esp32lPanel extends StatelessWidget {
 
                   ElevatedButton(
                     onPressed: () {
-                      if (context.read<AppBloc>().state.isRunning) {
-                        if (context.read<MqttBloc>().state.isConnected
-                            &&  context.read<MqttBloc>().state.isSubscribed) {
-                          ServiceAdapter.instance()?.send2Esp32('stop');
-                          showToast(context, "The application running on the ESP32-S3 has been terminated and cannot be used any further. Please restart it with jag to resume interaction.");
-                        }
-                        else {
-                          showToast(context, "MQTT problems");
-                        }
-                      }
-                      else {
-                        showToast(context, "Service isn't run");
-                      }
+                      sendCommand2Esp32(context, 'stop',
+                          "The application running on the ESP32-S3 has been terminated and cannot be used any further. Please restart it with jag to resume interaction.");
                     },
                     child: Text('Stop ESP32-S3', ),
                   ),
@@ -60,5 +49,21 @@ class Esp32lPanel extends StatelessWidget {
         );
       },
     );
+  }
+
+  void sendCommand2Esp32(BuildContext context, String command, String warning) {
+    if (context.read<AppBloc>().state.isRunning) {
+      if (context.read<MqttBloc>().state.isConnected
+          &&  context.read<MqttBloc>().state.isSubscribed) {
+        ServiceAdapter.instance()?.send2Esp32(command);
+        showToast(context, warning);
+      }
+      else {
+        showToast(context, "MQTT problems");
+      }
+    }
+    else {
+      showToast(context, "Service isn't run");
+    }
   }
 }

@@ -363,6 +363,19 @@ class ServiceAdapter {
     print ('******* setProgress $progress ******* ${DateTime.now()}');
   }
 
+  bool sendCommand2Esp32(String command) {
+    bool result = false;
+    bool serviceIsRunning = _appBloc?.state.isRunning?? false;
+    bool isConnected = _mqttBloc?.state.isConnected?? false;
+    bool isSubscribed =  _mqttBloc?.state.isSubscribed?? false;
+    if (serviceIsRunning) {
+      if (isConnected &&  isSubscribed) {
+        ServiceAdapter.instance()?.send2Esp32(command);
+        result = true;
+       }
+    }
+    return result;
+  }
 
   void send2Esp32(String espCommand) {
     final Command command = Command(cmd: espCommand);
