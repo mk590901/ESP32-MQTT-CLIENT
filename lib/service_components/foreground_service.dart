@@ -136,7 +136,7 @@ EMQX: _server = 'broker.emqx.io'
         final payload = MqttPublishPayload.bytesToStringAsString(
             recMessage.payload.message);
         String message = payload;
-        //print('Received message: $payload from topic: ${c[0].topic}');
+        //@print('Received message: $payload from topic: ${c[0].topic}');
         if (!isDataFromDeletedObject(message)) {
           queue.add({'response': 'sync', 'value': message,});
         }
@@ -397,7 +397,8 @@ EMQX: _server = 'broker.emqx.io'
   }
 
   bool isDataFromDeletedObject(String dataPacket) {
-    DataPacket targetDataPacket = DataPacket.empty().decode(dataPacket);
+    //DataPacket targetDataPacket = DataPacket.empty().decode(dataPacket);
+    DataPacket targetDataPacket = DataPacket.empty().restore(dataPacket);
     String id = targetDataPacket.sensorId;
     bool result = false;
     if (deletedObjectsList.contains(id)) {
