@@ -32,6 +32,15 @@ class DataPacket {
     return DataPacket(sensorId, sensorName, seriesLength, rawData);
   }
 
+  DataPacket restore(String jsonString) {
+    Map<String, dynamic> metadata = jsonDecode(jsonString);
+    String sensorId   = metadata['sensor_id'];
+    String sensorName = metadata['sensor_name'];
+    int seriesLength  = metadata['series_length'];
+    List<double> rawData = base64restore(metadata['raw_data'] as String, seriesLength);
+    return DataPacket(sensorId, sensorName, seriesLength, rawData);
+  }
+
   String base64encode(List<double> rawData) {
     // Convert List<double> to Float64List
     final Float64List floatList = Float64List.fromList(rawData);
@@ -64,6 +73,13 @@ class DataPacket {
     int size = min(length,listTemp.length);
     List<double> result = listTemp.sublist(0, size);
     return result;
+  }
+
+  void trace() {
+    print('sensorId->$sensorId');
+    print('sensorName->$sensorName');
+    print('seriesLength->$seriesLength');
+    print('rawData->$rawData');
   }
 
 

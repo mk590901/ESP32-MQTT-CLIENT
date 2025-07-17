@@ -6,7 +6,6 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:esp32_ecg_mqtt_client/data_packet.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:esp32_ecg_mqtt_client/main.dart';
@@ -48,4 +47,9 @@ void main() {
     print ('list->$list');
   });
 
+  test('Restore DataPacket', () {
+    String jsonStr = '{"sensor_id":"sensor123","sensor_name":"ESP32-S3","series_length":3,"raw_data":"AAAAAACAN0AAAAAAAAA4QAAAAAAAgDhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="}';
+    DataPacket packet = DataPacket.empty().restore(jsonStr);
+    packet.trace();
+  });
 }
