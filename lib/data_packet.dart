@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 
 class DataPacket {
@@ -50,5 +51,20 @@ class DataPacket {
     // Return as List<double>
     return floatList.toList();
   }
+
+  List<double> base64restore(String base64string, int length) {
+    // Decode base64 string to bytes
+    final Uint8List bytes = base64Decode(base64string);
+    // Convert bytes to Float64List
+    final Float64List floatList = Float64List.fromList(
+        Uint8List.fromList(bytes).buffer.asFloat64List().toList()
+    );
+    // Return as List<double>
+    List<double> listTemp = floatList.toList();
+    int size = min(length,listTemp.length);
+    List<double> result = listTemp.sublist(0, size);
+    return result;
+  }
+
 
 }
