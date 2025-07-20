@@ -78,8 +78,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
         if (command == 'sync') {
           String jsonString = data['value'] as String;
-          //DataPacket targetDataPacket = DataPacket.empty().decode(jsonString);
-          DataPacket targetDataPacket = DataPacket.empty().restore(jsonString);
+          DataPacket targetDataPacket = DataPacket.empty().decode(jsonString);
+          //DataPacket targetDataPacket = DataPacket.empty().restore(jsonString);
           String id = targetDataPacket.sensorId;
           String name = targetDataPacket.sensorName;
           int length =  targetDataPacket.seriesLength;

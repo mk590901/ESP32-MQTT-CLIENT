@@ -37,6 +37,7 @@ class Esp32lPanel extends StatelessWidget {
 
                   ElevatedButton(
                     onPressed: () {
+                      context.read<Esp32Bloc>().add(FinalEcg());
                       sendCommand2Esp32(context, 'stop',
                           "The application running on the ESP32-S3 has been terminated and cannot be used any further. Please restart it with jag to resume interaction.");
                     },

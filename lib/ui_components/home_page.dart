@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../gui_adapter/service_adapter.dart';
 import '../ui_blocks/app_bloc.dart';
+import '../ui_blocks/esp32_bloc.dart';
 import '../ui_blocks/items_bloc.dart';
 import '../ui_blocks/mqtt_bloc.dart';
 import '../utils.dart';
@@ -214,6 +215,7 @@ class HomePage extends StatelessWidget {
       await SystemNavigator.pop();
     } else if (result == 'exit') {
       if (context.mounted) {
+        //context.read<Esp32Bloc>().add(FinalEcg());
         context.read<AppBloc>().add(StopService());
       }
       await SystemNavigator.pop();

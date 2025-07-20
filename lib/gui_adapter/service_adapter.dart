@@ -212,7 +212,7 @@ class ServiceAdapter {
     // We divide the elements into those that will remain and those that will be deleted
     container.forEach((key, value) {
       int diff = now.difference(value.updatedTime()).inMilliseconds;
-      print ('[$key] [$diff]');
+      //print ('[$key] [$diff]');
       if (diff > ServiceAdapter.STOP_DELAY) {
         stopRendering(key);
       }
@@ -383,9 +383,9 @@ class ServiceAdapter {
     FlutterForegroundTask.sendData({'command': 'command', 'data': jsonString});
   }
 
-  void executeCommand(String jsonString) {
-    Command command = Command.fromJsonString(jsonString);
-    print ('executeCommand->[${command.cmd}]');
-  }
+  // void executeCommand(String jsonString) {
+  //   Command command = Command.fromJsonString(jsonString);
+  //   print ('executeCommand->[${command.cmd}]');
+  // }
 
 }

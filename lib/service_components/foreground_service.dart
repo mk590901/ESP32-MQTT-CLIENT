@@ -397,8 +397,8 @@ EMQX: _server = 'broker.emqx.io'
   }
 
   bool isDataFromDeletedObject(String dataPacket) {
-    //DataPacket targetDataPacket = DataPacket.empty().decode(dataPacket);
-    DataPacket targetDataPacket = DataPacket.empty().restore(dataPacket);
+    DataPacket targetDataPacket = DataPacket.empty().decode(dataPacket);
+    //DataPacket targetDataPacket = DataPacket.empty().restore(dataPacket);
     String id = targetDataPacket.sensorId;
     bool result = false;
     if (deletedObjectsList.contains(id)) {
