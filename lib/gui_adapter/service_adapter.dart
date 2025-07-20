@@ -352,10 +352,10 @@ class ServiceAdapter {
     return result;
   }
 
-
   void stopRendering(String key) {
     Item? item = getItem(key);
     item?.graphWidget.stop();
+    print ('======= STOP RENDER =======');
   }
 
   void setProgress(bool progress) {
