@@ -155,8 +155,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     });
 
     on<StopService>((event, emit) async {
+      ServiceAdapter.instance()?.sendCommand2Esp32('finalEcg');
+      ServiceAdapter.instance()?.sendCommand2Esp32('stop');
       await FlutterForegroundTask.stopService();
-      emit(AppState(isRunning: false, counter: 0, /*isServer: state.isServer,*/ ));
+      emit(AppState(isRunning: false, counter: 0, ));
     });
 
     on<UpdateData>((event, emit) {

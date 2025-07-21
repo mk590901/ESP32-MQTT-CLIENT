@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'ECG Service App',
+            'ESP32 MQTT Client',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -87,8 +87,6 @@ class HomePage extends StatelessWidget {
                           context.read<ItemsBloc>().add(
                             RemoveItemEvent(
                               item.id,
-                              // item.graphWidget,
-                              // direction,
                             ),
                           );
                           if (direction == DismissDirection.endToStart) {
@@ -127,23 +125,23 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (context.read<AppBloc>().state.isRunning) {
-              if (context.read<MqttBloc>().state.isConnected
-              &&  context.read<MqttBloc>().state.isSubscribed) {
-                context.read<AppBloc>().add(SendData('create_object', ''));
-              }
-              else {
-                showToast(context, "MQTT problems");
-              }
-            }
-            else {
-              showToast(context, "Service isn't run");
-            }
-          },
-          child: const Icon(Icons.add),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     if (context.read<AppBloc>().state.isRunning) {
+        //       if (context.read<MqttBloc>().state.isConnected
+        //       &&  context.read<MqttBloc>().state.isSubscribed) {
+        //         context.read<AppBloc>().add(SendData('create_object', ''));
+        //       }
+        //       else {
+        //         showToast(context, "MQTT problems");
+        //       }
+        //     }
+        //     else {
+        //       showToast(context, "Service isn't run");
+        //     }
+        //   },
+        //   child: const Icon(Icons.add),
+        // ),
       ),
     );
   }
@@ -215,7 +213,6 @@ class HomePage extends StatelessWidget {
       await SystemNavigator.pop();
     } else if (result == 'exit') {
       if (context.mounted) {
-        //context.read<Esp32Bloc>().add(FinalEcg());
         context.read<AppBloc>().add(StopService());
       }
       await SystemNavigator.pop();

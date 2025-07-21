@@ -383,9 +383,4 @@ class ServiceAdapter {
     FlutterForegroundTask.sendData({'command': 'command', 'data': jsonString});
   }
 
-  // void executeCommand(String jsonString) {
-  //   Command command = Command.fromJsonString(jsonString);
-  //   print ('executeCommand->[${command.cmd}]');
-  // }
-
 }
