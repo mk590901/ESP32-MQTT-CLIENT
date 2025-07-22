@@ -6,7 +6,7 @@ Below is a brief description of the __Flutter GUI__ application controls the pse
 
 In essence, this application is a clone of the [__ECG MQTT SERVICE__](https://github.com/mk590901/ECG-MQTT-SERVICE) application, which has some additions that allow to control the __ESP32-S3__ chip. To be more precise, current __ESP32 MQTT Client ≈ ECG MQTT SERVICE + [ESP32 Control Panel](https://github.com/mk590901/ESP32-Control-Panel)__.
 
-To clarify the implementation features, it is enough to refer to the https://github.com/mk590901/ECG-MQTT-SERVICE, https://github.com/mk590901/ESP32-Control-Panel and https://github.com/mk590901/TOIT-ECG-GENERATOR repositories. The latter contains information about the application written in Toit for the __ESP32-S3 μ-controller__.
+To clarify the implementation features, it's enough to refer to the https://github.com/mk590901/ECG-MQTT-SERVICE, https://github.com/mk590901/ESP32-Control-Panel and https://github.com/mk590901/TOIT-ECG-GENERATOR repositories. The latter contains information about the application written in Toit for the __ESP32-S3 μ-controller__.
 
 ## Features
 
