@@ -1,4 +1,4 @@
-# esp32_ecg_mqtt_client
+# ESP32_mqtt_client
 
 A new Flutter project.
 
