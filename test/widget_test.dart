@@ -65,50 +65,48 @@ void main() {
 
   test('ECG', () {
     List<double> ecg = generateECG();
-    for (int i = 0; i < /*min(100, ecg.length)*/ecg.length; i++) {
-      //print('$i: ${ecg[i].toStringAsFixed(4)}');
-      //print('$i: ${(ecg[i]*1000).toInt()}');
+    for (int i = 0; i < ecg.length; i++) {
       print('${(ecg[i]).toInt()}');
     }
   });
 }
 
-// Параметры ЭКГ
-const double heartRate = 60; // Частота сердечных сокращений (ударов в минуту)
-const double sampleRate = 128; //250; // Частота дискретизации (Гц)
-const double duration = 1.0; // Длительность сигнала в секундах
+// ECG parameters
+const double heartRate = 60;    //  Heart rate (beats per minute)
+const double sampleRate = 128;  //  Sampling frequency (Hz)
+const double duration = 1.0;    //  Signal duration in seconds
 
-// Амплитуды и длительности волн
-const double pWaveAmp = 0.15; // 0.25 Амплитуда P-волны
-const double qrsAmp = 1.0; // Амплитуда QRS-комплекса
-const double tWaveAmp = 0.20; // 0.35 Амплитуда T-волны
-const double pDuration = 0.1; // Длительность P-волны
-const double qrsDuration = 0.1; // Длительность QRS-комплекса
-const double tDuration = 0.2; // Длительность T-волны
-const double noise = 0.2;
+// Wave amplitudes and durations
+const double pWaveAmp = 0.15;   //  P-wave amplitude
+const double qrsAmp = 1.0;      //  QRS complex amplitude
+const double tWaveAmp = 0.20;   //  T-wave amplitude
+const double pDuration = 0.1;   //  P-wave duration
+const double qrsDuration = 0.1; //  QRS complex duration
+const double tDuration = 0.2;   //  P-wave duration
+const double noise = 0.2;       //  Noise (% from ECG signal value)
 
 List<double> generateECG() {
   List<double> ecgSignal = [];
-  double period = 60.0 / heartRate; // Период одного сердечного цикла
+  double period = 60.0 / heartRate;   //  Period of one cardiac cycle
   int samples = (duration * sampleRate).toInt();
 
   for (int i = 0; i < samples; i++) {
     double t = i / sampleRate;
-    double modT = t % period; // Время внутри одного цикла
+    double modT = t % period;         //  Time within one cycle
 
     double signal = 0.0;
 
-    // P-волна (гауссова функция)
+    //  P-wave (Gaussian function)
     double pCenter = 0.1 * period;
     signal += pWaveAmp * exp(-pow((modT - pCenter) / pDuration, 2));
 
-    // QRS-комплекс (комбинация гауссовых функций)
+    // QRS complex (combination of Gaussian functions)
     double qrsCenter = 0.4 * period;
     signal += -0.2 * qrsAmp * exp(-pow((modT - (qrsCenter - 0.025)) / (qrsDuration / 3), 2)); // Q
     signal += qrsAmp * exp(-pow((modT - qrsCenter) / (qrsDuration / 2), 2)); // R
     signal += -0.3 * qrsAmp * exp(-pow((modT - (qrsCenter + 0.025)) / (qrsDuration / 3), 2)); // S
 
-    // T-волна (гауссова функция)
+    // T-wave (Gaussian function)
     double tCenter = 0.7 * period;
     signal += tWaveAmp * exp(-pow((modT - tCenter) / tDuration, 2));
 
@@ -122,11 +120,3 @@ List<double> generateECG() {
 int getRandomValue(final int min, final int max) {
   return Random().nextInt(max - min + 1) + min;
 }
-
-// void main() {
-//   List<double> ecg = generateECG();
-//   // Вывод первых 100 значений для демонстрации
-//   for (int i = 0; i < min(100, ecg.length); i++) {
-//     print('Sample $i: ${ecg[i].toStringAsFixed(4)}');
-//   }
-// }
